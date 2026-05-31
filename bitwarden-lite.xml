@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Bitwarden Lite</Name>
+  <Repository>ghcr.io/bitwarden/lite:latest</Repository>
+  <Registry>https://github.com/bitwarden/self-host/pkgs/container/lite</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/mimartin12/unraid-bw-lite-template/issues</Support>
+  <Project>https://github.com/mimartin12/unraid-bw-lite-template</Project>
+  <Overview>Unofficial Unraid template for the official Bitwarden Lite self-hosted password manager image.</Overview>
+  <Description>This is an unofficial Unraid template and is not supported, endorsed, or maintained by Bitwarden. It runs the official Bitwarden Lite single-container self-hosted image. This template uses SQLite by default for a simple one-container Unraid install. Before starting, get an installation ID and key from https://bitwarden.com/host/ and set BW_DOMAIN to the hostname or IP address users will use to reach this server. SSL is enabled by default; provide certificates in /etc/bitwarden or use the generated self-signed certificate for testing.</Description>
+  <Category>Tools:Utilities</Category>
+  <Icon>https://raw.githubusercontent.com/bitwarden/brand/main/icons/256x256.png</Icon>
+  <WebUI>https://[IP]:[PORT:8443]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/mimartin12/unraid-bw-lite-template/main/bitwarden-lite.xml</TemplateURL>
+
+  <Config Name="HTTPS Web UI Port" Target="8443" Default="8443" Mode="tcp" Description="Container HTTPS port used by the Unraid WebUI button. Required when BW_ENABLE_SSL is true." Type="Port" Display="always" Required="true" Mask="false">8443</Config>
+  <Config Name="HTTP Port" Target="8080" Default="8080" Mode="tcp" Description="Container HTTP port. Use only if SSL is disabled or when proxying internally." Type="Port" Display="advanced" Required="false" Mask="false">8080</Config>
+  <Config Name="Bitwarden Data" Target="/etc/bitwarden" Default="/mnt/user/appdata/bitwarden-lite" Mode="rw" Description="Persistent Bitwarden Lite data, generated files, certificates, and the default SQLite vault.db." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/bitwarden-lite</Config>
+  <Config Name="Bitwarden Logs" Target="/var/log/bitwarden" Default="/mnt/user/appdata/bitwarden-lite/logs" Mode="rw" Description="Persistent Bitwarden Lite service logs." Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/bitwarden-lite/logs</Config>
+
+  <Config Name="Domain" Target="BW_DOMAIN" Default="bitwarden.example.com" Description="Hostname or IP address where Bitwarden will be accessed, without a scheme or trailing slash. For local testing, this can be your Unraid server IP." Type="Variable" Display="always" Required="true" Mask="false">bitwarden.example.com</Config>
+  <Config Name="Installation ID" Target="BW_INSTALLATION_ID" Default="" Description="Installation ID from https://bitwarden.com/host/." Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="Installation Key" Target="BW_INSTALLATION_KEY" Default="" Description="Installation key from https://bitwarden.com/host/." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Database Provider" Target="BW_DB_PROVIDER" Default="sqlite" Description="Database provider. Default sqlite creates vault.db under /etc/bitwarden. Other valid values include mysql, mariadb, postgresql, and sqlserver." Type="Variable" Display="always" Required="true" Mask="false">sqlite</Config>
+  <Config Name="SQLite File" Target="BW_DB_FILE" Default="/etc/bitwarden/vault.db" Description="SQLite database file path inside the container. The default stores vault.db in the persistent /etc/bitwarden appdata mount." Type="Variable" Display="advanced" Required="false" Mask="false">/etc/bitwarden/vault.db</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Description="Container user ID. Unraid default is nobody." Type="Variable" Display="advanced" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Description="Container group ID. Unraid default is users." Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+  <Config Name="Enable IPv6" Target="BW_ENABLE_IPV6" Default="false" Description="Enable IPv6 support in the Bitwarden Lite web server." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+
+  <Config Name="External DB Server" Target="BW_DB_SERVER" Default="" Description="External database hostname or IP. Required for mysql, mariadb, postgresql, or sqlserver." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="External DB Port" Target="BW_DB_PORT" Default="" Description="Optional custom database port. Leave blank to use the default for the selected database provider." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="External DB Name" Target="BW_DB_DATABASE" Default="" Description="External database name. Required for mysql, mariadb, postgresql, or sqlserver." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="External DB Username" Target="BW_DB_USERNAME" Default="" Description="External database username. Required for mysql, mariadb, postgresql, or sqlserver." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="External DB Password" Target="BW_DB_PASSWORD" Default="" Description="External database password. Required for mysql, mariadb, postgresql, or sqlserver." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+
+  <Config Name="Enable SSL" Target="BW_ENABLE_SSL" Default="true" Description="Set true for Bitwarden Lite to terminate HTTPS itself. If using a reverse proxy for HTTPS, set false." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="SSL Certificate" Target="BW_SSL_CERT" Default="ssl.crt" Description="SSL certificate filename under /etc/bitwarden when BW_ENABLE_SSL is true." Type="Variable" Display="advanced" Required="false" Mask="false">ssl.crt</Config>
+  <Config Name="SSL Key" Target="BW_SSL_KEY" Default="ssl.key" Description="SSL private key filename under /etc/bitwarden when BW_ENABLE_SSL is true." Type="Variable" Display="advanced" Required="false" Mask="false">ssl.key</Config>
+  <Config Name="Enable SSL CA" Target="BW_ENABLE_SSL_CA" Default="false" Description="Use SSL with a certificate authority-backed service." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="SSL CA Certificate" Target="BW_SSL_CA_CERT" Default="ca.crt" Description="SSL CA certificate filename under /etc/bitwarden when BW_ENABLE_SSL_CA is true." Type="Variable" Display="advanced" Required="false" Mask="false">ca.crt</Config>
+  <Config Name="Enable SSL DH" Target="BW_ENABLE_SSL_DH" Default="false" Description="Use SSL with Diffie-Hellman parameters." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="SSL DH Parameters" Target="BW_SSL_DH_CERT" Default="dh.pem" Description="Diffie-Hellman parameters filename under /etc/bitwarden when BW_ENABLE_SSL_DH is true." Type="Variable" Display="advanced" Required="false" Mask="false">dh.pem</Config>
+  <Config Name="SSL Protocols" Target="BW_SSL_PROTOCOLS" Default="" Description="Optional NGINX SSL protocols override. Leave blank for Bitwarden recommended defaults." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="SSL Ciphers" Target="BW_SSL_CIPHERS" Default="" Description="Optional NGINX SSL ciphers override. Leave blank for Bitwarden recommended defaults." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="HTTP Port Variable" Target="BW_PORT_HTTP" Default="8080" Description="Internal HTTP listener port used by Bitwarden Lite. Keep in sync with the container port mapping target." Type="Variable" Display="advanced" Required="false" Mask="false">8080</Config>
+  <Config Name="HTTPS Port Variable" Target="BW_PORT_HTTPS" Default="8443" Description="Internal HTTPS listener port used by Bitwarden Lite when SSL is enabled. Keep in sync with the container port mapping target." Type="Variable" Display="advanced" Required="false" Mask="false">8443</Config>
+
+  <Config Name="Enable Admin Service" Target="BW_ENABLE_ADMIN" Default="true" Description="Enable the admin service. Bitwarden docs say not to disable this service." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable API Service" Target="BW_ENABLE_API" Default="true" Description="Enable the API service. Bitwarden docs say not to disable this service." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable Identity Service" Target="BW_ENABLE_IDENTITY" Default="true" Description="Enable the identity service. Bitwarden docs say not to disable this service." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable Icons Service" Target="BW_ENABLE_ICONS" Default="true" Description="Enable the website icon service for vault item URIs." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable Notifications Service" Target="BW_ENABLE_NOTIFICATIONS" Default="true" Description="Enable push notifications, login with device, mobile vault sync notifications, and related notification features." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Enable Events Service" Target="BW_ENABLE_EVENTS" Default="false" Description="Enable Bitwarden event logs for teams and enterprise event monitoring." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Enable SCIM Service" Target="BW_ENABLE_SCIM" Default="false" Description="Enable SCIM for Enterprise organizations." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Enable SSO Service" Target="BW_ENABLE_SSO" Default="false" Description="Enable SSO services for Enterprise organizations." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Proxy Icons To Cloud" Target="BW_ICONS_PROXY_TO_CLOUD" Default="false" Description="Proxy icon requests to Bitwarden cloud to reduce local memory use. Bitwarden recommends setting BW_ENABLE_ICONS=false when this is true." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+
+  <Config Name="SMTP Reply-To Email" Target="globalSettings__mail__replyToEmail" Default="" Description="Reply-to email address used by this Bitwarden server." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="SMTP Host" Target="globalSettings__mail__smtp__host" Default="" Description="SMTP server hostname." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="SMTP Port" Target="globalSettings__mail__smtp__port" Default="587" Description="SMTP server port." Type="Variable" Display="advanced" Required="false" Mask="false">587</Config>
+  <Config Name="SMTP SSL" Target="globalSettings__mail__smtp__ssl" Default="false" Description="Set true for SMTP over SSL. Set false for TLS." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="SMTP Username" Target="globalSettings__mail__smtp__username" Default="" Description="SMTP username." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="SMTP Password" Target="globalSettings__mail__smtp__password" Default="" Description="SMTP password. Bitwarden notes that dollar signs are not supported in SMTP passwords." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+
+  <Config Name="Yubico Client ID" Target="globalSettings__yubico__clientId" Default="" Description="Yubico Web Services client ID." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Yubico Secret Key" Target="globalSettings__yubico__key" Default="" Description="Yubico Web Services secret key." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Admin Portal Emails" Target="adminSettings__admins" Default="" Description="Comma-separated email addresses allowed to access the Bitwarden system administrator portal." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Disable User Registration" Target="globalSettings__disableUserRegistration" Default="false" Description="Set true after creating your initial account to prevent open public registration." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="HIBP API Key" Target="globalSettings__hibpApiKey" Default="" Description="Have I Been Pwned API key for breach reports and master password checks." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Real IPs" Target="BW_REAL_IPS" Default="" Description="Comma-separated trusted proxy IPs for NGINX real client IP handling." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Content Security Policy" Target="BW_CSP" Default="" Description="Optional Content-Security-Policy override. Changing this can break Bitwarden features." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+</Container>

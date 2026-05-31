@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<CommunityApplications>
+  <Profile>Unofficial Unraid Docker template for deploying the official Bitwarden Lite self-hosted container image.</Profile>
+  <WebPage>https://github.com/mimartin12/unraid-bw-lite-template</WebPage>
+  <Forum>https://github.com/mimartin12/unraid-bw-lite-template/issues</Forum>
+  <Icon>https://raw.githubusercontent.com/bitwarden/brand/main/icons/256x256.png</Icon>
+</CommunityApplications>
