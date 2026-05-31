@@ -14,7 +14,7 @@
   <Category>Security: Tools:Utilities</Category>
   <Icon>https://raw.githubusercontent.com/bitwarden/brand/main/icons/256x256.png</Icon>
   <WebUI>https://[IP]:[PORT:8443]/</WebUI>
-  <TemplateURL>https://raw.githubusercontent.com/mimartin12/unraid-bw-lite-template/main/bitwarden-lite.xml</TemplateURL>
+  <TemplateURL>https://raw.githubusercontent.com/mimartin12/unraid-bw-lite-template/main/templates/bitwarden-lite.xml</TemplateURL>
 
   <Config Name="HTTPS Web UI Port" Target="8443" Default="8443" Mode="tcp" Description="Container HTTPS port used by the Unraid WebUI button. Required when BW_ENABLE_SSL is true." Type="Port" Display="always" Required="true" Mask="false">8443</Config>
   <Config Name="HTTP Port" Target="8080" Default="8080" Mode="tcp" Description="Container HTTP port. Use only if SSL is disabled or when proxying internally." Type="Port" Display="advanced" Required="false" Mask="false">8080</Config>
