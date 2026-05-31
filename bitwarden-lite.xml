@@ -11,7 +11,7 @@
   <Project>https://github.com/mimartin12/unraid-bw-lite-template</Project>
   <Overview>Unofficial Unraid template for the official Bitwarden Lite self-hosted password manager image.</Overview>
   <Description>This is an unofficial Unraid template and is not supported, endorsed, or maintained by Bitwarden. It runs the official Bitwarden Lite single-container self-hosted image. This template uses SQLite by default for a simple one-container Unraid install. Before starting, get an installation ID and key from https://bitwarden.com/host/ and set BW_DOMAIN to the hostname or IP address users will use to reach this server. SSL is enabled by default; provide certificates in /etc/bitwarden or use the generated self-signed certificate for testing.</Description>
-  <Category>Tools:Utilities</Category>
+  <Category>Security: Tools:Utilities</Category>
   <Icon>https://raw.githubusercontent.com/bitwarden/brand/main/icons/256x256.png</Icon>
   <WebUI>https://[IP]:[PORT:8443]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/mimartin12/unraid-bw-lite-template/main/bitwarden-lite.xml</TemplateURL>
